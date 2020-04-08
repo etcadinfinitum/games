@@ -1,37 +1,27 @@
-## Welcome to GitHub Pages
+## Welcome to Lizzy's Game Depot
 
-You can use the [editor on GitHub](https://github.com/etcadinfinitum/games/edit/master/README.md) to maintain and preview the content for your website in Markdown files.
+I will be adding games I make to this repository.
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+### Offerings
 
-### Markdown
+In reverse chronological order:
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+- Proof-of-existence WebGL build [game](https://lizzy.wiki/games/demo/release/index.html) [about](https://lizzy.wiki/games/demo/index.html)
 
-```markdown
-Syntax highlighted code block
+### Frequently Asked Questions
 
-# Header 1
-## Header 2
-### Header 3
+> Should you (Lizzy) be writing games?
 
-- Bulleted
-- List
+Probably not. I have no more than 16 cumulative hours of gameplay in my entire life.
 
-1. Numbered
-2. List
+> Should I (reader) play these games?
 
-**Bold** and _Italic_ and `Code` text
+I will get back to you on that.
 
-[Link](url) and ![Image](src)
-```
+> Do you have a favorite game to play?
 
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
+I'm glad you asked; [psychadelic PacMan](https://www.youtube.com/watch?v=mV_jf2GyjkE) is historically the one I enjoy the most.
 
-### Jekyll Themes
+Also, [making paperclips](https://www.decisionproblem.com/paperclips/index2.html). (In case you doubted where my game development interests currently lie, this about sums it up.)
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/etcadinfinitum/games/settings). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://help.github.com/categories/github-pages-basics/) or [contact support](https://github.com/contact) and we’ll help you sort it out.
+_Author's note: I would probably enjoy Portal...if I ever played it. :sob:_
