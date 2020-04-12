@@ -45,6 +45,6 @@ public class MovePlayer1 : MonoBehaviour
                     rb.MovePosition(me.position + delta);
             }
         }
-        Debug.Log("New coordinates for player1: " + me.position + delta);
+        // Debug.Log("New coordinates for player1: " + me.position + delta);
     }
 }
