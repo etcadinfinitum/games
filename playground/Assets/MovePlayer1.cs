@@ -19,33 +19,30 @@ public class MovePlayer1 : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Vector2 delta = new Vector2(0f, 0f);
+        Vector3 delta = new Vector3(0f, 0f, 0f);
         // check for key presses
         if (Input.GetKeyDown(KeyCode.W)) {
             // move up
-            delta = new Vector2(0f, 1f);
+            delta = new Vector3(0f, 1f, 0f);
         } else if (Input.GetKeyDown(KeyCode.A)) {
             // move left
-            delta = new Vector2(-1f, 0f);
+            delta = new Vector3(-1f, 0f, 0f);
         } else if (Input.GetKeyDown(KeyCode.S)) {
             // move down
-            delta = new Vector2(0f, -1f);
+            delta = new Vector3(0f, -1f, 0f);
         } else if (Input.GetKeyDown(KeyCode.D)) {
             // move right
-            delta = new Vector2(1f, 0f);
+            delta = new Vector3(1f, 0f, 0f);
         }
         // rb.MovePosition(rb.position + delta);
         if (Math.Abs(otherPlayer.position.x - me.position.x + delta.x) + 1 < 15) {
-            if ((rb.position + delta).y > -5 
-                && (rb.position + delta).y < 4
-                && (rb.position + delta).x > -7
-                && (rb.position + delta).x < 26) {
-                    rb.MovePosition(rb.position + delta);
+            if ((me.position + delta).y > -5 
+                && (me.position + delta).y < 4
+                && (me.position + delta).x > -7
+                && (me.position + delta).x < 26) {
+                    rb.MovePosition(me.position + delta);
             }
-        } else {
-            // move player back into movement range
-            delta.x = (delta.x * -2f);
-            rb.MovePosition(rb.position + delta);
         }
+        Debug.Log("New coordinates for player1: " + me.position + delta);
     }
 }
