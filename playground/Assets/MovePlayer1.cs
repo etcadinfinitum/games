@@ -34,8 +34,10 @@ public class MovePlayer1 : MonoBehaviour
             // move right
             delta = new Vector3(1f, 0f, 0f);
         }
-        // rb.MovePosition(rb.position + delta);
-        if (Math.Abs(otherPlayer.position.x - me.position.x + delta.x) + 1 < 15) {
+        // perform position offset
+        float currDist = Math.Abs(otherPlayer.position.x - me.position.x);
+        float currProjDist = Math.Abs(otherPlayer.position.x - (me.position.x + delta.x));
+        if (currProjDist + 1 < 15 || currProjDist < currDist) {
             if ((me.position + delta).y > -5 
                 && (me.position + delta).y < 4
                 && (me.position + delta).x > -7

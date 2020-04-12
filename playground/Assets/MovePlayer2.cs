@@ -37,7 +37,9 @@ public class MovePlayer2 : MonoBehaviour
         }
 
         // perform position offset
-        if (Math.Abs(otherPlayer.position.x - me.position.x + delta.x) + 1 < 15) {
+        float currDist = Math.Abs(otherPlayer.position.x - me.position.x);
+        float currProjDist = Math.Abs(otherPlayer.position.x - (me.position.x + delta.x));
+        if (currProjDist + 1 < 15 || currProjDist < currDist) {
             if ((me.position + delta).y > -5 
                 && (me.position + delta).y < 4
                 && (me.position + delta).x > -7
