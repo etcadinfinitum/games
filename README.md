@@ -6,6 +6,7 @@ I will be adding games I make to this repository.
 
 In reverse chronological order:
 
+- A simple cooperative game based off of Unity's Playground assets [game](https://lizzy.wiki/games/playground/release/index.html) [about](https://lizzy.wiki/games/playground/index.html)
 - Proof-of-existence WebGL build [game](https://lizzy.wiki/games/demo/release/index.html) [about](https://lizzy.wiki/games/demo/index.html)
 
 ### Frequently Asked Questions
