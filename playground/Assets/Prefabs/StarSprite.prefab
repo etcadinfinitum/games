@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4608905858639454898}
   - component: {fileID: 4532810917053288982}
   - component: {fileID: 60360974848253628}
-  - component: {fileID: 114316479223648972}
+  - component: {fileID: 114307500009232140}
   m_Layer: 0
   m_Name: StarSprite
   m_TagString: Untagged
@@ -118,7 +118,7 @@ PolygonCollider2D:
       - {x: -0.16295427, y: 0.27106807}
       - {x: 0.10341322, y: 0.54683673}
       - {x: 0.29770494, y: 0.18018983}
---- !u!114 &114316479223648972
+--- !u!114 &114307500009232140
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -131,3 +131,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: {fileID: 0}
+  spawnPlantPrefab: {fileID: 6258348600950467244, guid: f7637f18adf624bbe9d7a377932e7d58,
+    type: 3}

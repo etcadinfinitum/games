@@ -11,6 +11,7 @@ TagManager:
   - Breakable
   - Player1
   - Player2
+  - Crate
   layers:
   - Default
   - TransparentFX

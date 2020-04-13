@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 60162922898984738}
   m_Layer: 0
   m_Name: CrateSprite
-  m_TagString: Untagged
+  m_TagString: Crate
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -95,8 +95,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spawnNextPrefab: {fileID: 4400869249478036123, guid: 858f437331c92c2f99bd3dc5081e84b0,
     type: 3}
-  helpTextPrefab: {fileID: 2820931760901268975, guid: b897a4f67ca21c6b8a9230047735571f,
-    type: 3}
+  requiredSmashes: 1
+  canPlantSpawnedStar: 0
 --- !u!60 &60162922898984738
 PolygonCollider2D:
   m_ObjectHideFlags: 0
