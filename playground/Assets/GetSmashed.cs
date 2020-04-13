@@ -7,6 +7,8 @@ public class GetSmashed : MonoBehaviour
     bool active = false;
     public GameObject spawnNextPrefab;
     public GameObject helpTextPrefab;
+    public int requiredSmashes = 1;
+    int totalSmashes = 0;
     GameObject helpTextItem;
     // Start is called before the first frame update
     void Start()
@@ -20,7 +22,8 @@ public class GetSmashed : MonoBehaviour
             active = true;
         }
         if (active && helpTextPrefab != null) {
-            // show prompt for "press enter to smash"
+            // TODO: show prompt for "press enter to smash"
+            // TODO: show health bar
             helpTextItem = Instantiate(helpTextPrefab, transform.position + new Vector3(0f, 0.5f, 0f), Quaternion.identity);
         }
     }
@@ -29,16 +32,20 @@ public class GetSmashed : MonoBehaviour
         if (otherObj.gameObject.name == "Player2") {
             active = false;
         }
+        Destroy(helpTextItem, 0.1f);
     }
 
     void OnTriggerStay2D(Collider2D otherObj) {
-        Debug.Log("Crate: Detecting trigger continuation with player named " + otherObj.gameObject.name);
+        // Debug.Log("Crate: Detecting trigger continuation with player named " + otherObj.gameObject.name);
         if (active && Input.GetKeyDown(KeyCode.Return)) {
-            Debug.Log("Detected enter key!");
-            GameObject newPrefabInst = Instantiate(spawnNextPrefab, transform.position, Quaternion.identity);
-            newPrefabInst.transform.position = transform.position;
-            Destroy(gameObject, 0.1f);
-            Destroy(helpTextItem);
+            // Debug.Log("Detected enter key!");
+            totalSmashes++;
+            if (totalSmashes >= requiredSmashes) {
+                GameObject newPrefabInst = Instantiate(spawnNextPrefab, transform.position, Quaternion.identity);
+                newPrefabInst.transform.position = transform.position;
+                Destroy(gameObject, 0.1f);
+                Destroy(helpTextItem);
+            }
         }
     }
 

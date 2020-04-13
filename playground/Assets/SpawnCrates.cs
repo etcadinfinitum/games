@@ -3,7 +3,7 @@ public class SpawnCrates : MonoBehaviour
 {
     // Reference to the Prefab. Drag a Prefab into this field in the Inspector.
     public GameObject cratePrefab;
-    int crateLimit = 15;
+    public int crateLimit = 15;
 
     void Start()
     {
