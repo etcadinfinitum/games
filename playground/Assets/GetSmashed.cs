@@ -39,12 +39,17 @@ public class GetSmashed : MonoBehaviour
     }
 
     void OnTriggerStay2D(Collider2D otherObj) {
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
         // Debug.Log("Crate: Detecting trigger continuation with player named " + otherObj.gameObject.name);
         if (active && Input.GetKeyDown(KeyCode.Return)) {
             // Debug.Log("Detected enter key!");
             totalSmashes++;
             if (smashableText != null) {
-                smashableText.text = "Current Smashable: " + otherObj.gameObject.tag + " (" + totalSmashes + "/" + requiredSmashes + ")";
+                smashableText.text = "Current Smashable Health: " + " (" + totalSmashes + "/" + requiredSmashes + ")";
             }
             if (totalSmashes >= requiredSmashes) {
                 totalSmashes = 0;
@@ -56,10 +61,5 @@ public class GetSmashed : MonoBehaviour
                 Debug.Log("More hits are required to destroy this box. Required:Given is " + totalSmashes + ":" + requiredSmashes);
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
     }
 }

@@ -7,6 +7,7 @@ public class GetConsumed : MonoBehaviour
     bool planted = false;
     public HealthBarUpdate health;
     public GameObject spawnPlantPrefab;
+    bool active = false;
 
     // Start is called before the first frame update
     void Start()
@@ -26,35 +27,38 @@ public class GetConsumed : MonoBehaviour
                 float h = health.GetHealthBarValue();
                 health.SetHealthBarValue(h + 0.1f);
                 Destroy(gameObject, 0.5f);
+            } else {
+                active = true;
             }
         } else if (health == null) {
             Debug.Log("ERROR: Health script variable is null.");
         }
     }
 
-    void OnTriggerStay2D(Collider2D otherObj) {
-        if (!planted) return;
-        Debug.Log("Trigger stayed for star; waiting for keyboard input...");
-        // Debug.Log("Crate: Detecting trigger continuation with player named " + otherObj.gameObject.name);
-        if (otherObj.gameObject.name == "Player1" && Input.GetKeyDown(KeyCode.E)) {
-            Debug.Log("Detected E for eat!");
-            float h = health.GetHealthBarValue();
-            health.SetHealthBarValue(h + 0.05f);
-            Destroy(gameObject, 0.1f);
-        } else if (otherObj.gameObject.name == "Player1" && Input.GetKeyDown(KeyCode.Z)) {
-            Debug.Log("Detected Z for plant!");
-            // plant the star
-            GameObject newBush = Instantiate(spawnPlantPrefab, transform.position, Quaternion.identity);
-            newBush.SetActive(true);
-            newBush.AddComponent<GrowStars>();
-            newBush.transform.position = gameObject.transform.position;
-            Destroy(gameObject, 0.1f);
-        }
+    void OnTriggerExit2D(Collider2D otherObj) {
+        active = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if (active) {
+            Debug.Log("Trigger stayed for star; waiting for keyboard input...");
+            // Debug.Log("Crate: Detecting trigger continuation with player named " + otherObj.gameObject.name);
+            if (Input.GetKeyDown(KeyCode.E)) {
+                Debug.Log("Detected E for eat!");
+                float h = health.GetHealthBarValue();
+                health.SetHealthBarValue(h + 0.05f);
+                Destroy(gameObject, 0.1f);
+            } else if (Input.GetKeyDown(KeyCode.Z)) {
+                Debug.Log("Detected Z for plant!");
+                // plant the star
+                GameObject newBush = Instantiate(spawnPlantPrefab, transform.position, Quaternion.identity);
+                newBush.SetActive(true);
+                newBush.AddComponent<GrowStars>();
+                newBush.transform.position = gameObject.transform.position;
+                Destroy(gameObject, 0.1f);
+            }
+        }
     }
 }
