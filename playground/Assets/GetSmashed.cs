@@ -8,8 +8,10 @@ public class GetSmashed : MonoBehaviour
     public GameObject spawnNextPrefab;
     public GameObject helpTextPrefab;
     public int requiredSmashes = 1;
+    public bool canPlantSpawnedStar = false;
     int totalSmashes = 0;
     GameObject helpTextItem;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -43,8 +45,11 @@ public class GetSmashed : MonoBehaviour
             if (totalSmashes >= requiredSmashes) {
                 GameObject newPrefabInst = Instantiate(spawnNextPrefab, transform.position, Quaternion.identity);
                 newPrefabInst.transform.position = transform.position;
+                newPrefabInst.GetComponent<GetConsumed>().SetPlanted(canPlantSpawnedStar);
                 Destroy(gameObject, 0.1f);
                 Destroy(helpTextItem);
+            } else {
+                Debug.Log("More hits are required to destroy this box. Required:Given is " + totalSmashes + ":" + requiredSmashes);
             }
         }
     }

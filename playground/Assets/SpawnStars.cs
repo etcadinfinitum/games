@@ -8,6 +8,7 @@ public class SpawnStars : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("var plantPlusConsume is " + plantPlusConsume);
         InvokeRepeating("MakeNewStar", 1.0f, 7.0f);
     }
 

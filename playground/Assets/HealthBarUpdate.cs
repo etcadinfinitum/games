@@ -20,6 +20,10 @@ public class HealthBarUpdate : MonoBehaviour
         {
             SetHealthBarColor(Color.green);
         }
+        if (value >= 1.0f) {
+            Debug.Log("Level 1 completed! Advancing to Level 2.");
+            gameObject.GetComponent<SwitchLevels>().NextLevel();
+        }
     }
 
     public float GetHealthBarValue()

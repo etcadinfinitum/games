@@ -12,7 +12,9 @@ public class GetConsumed : MonoBehaviour
     void Start()
     {
         health = GameObject.Find("HealthBar").GetComponent<HealthBarUpdate>();
-        spawnPlantPrefab = (GameObject)Resources.Load("StarGrower");
+        if (planted) {
+            spawnPlantPrefab = GameObject.Find("BushTemplate");
+        }
     }
 
     public void SetPlanted(bool planted) {
@@ -46,7 +48,10 @@ public class GetConsumed : MonoBehaviour
         } else if (otherObj.gameObject.name == "Player1" && Input.GetKeyDown(KeyCode.Z)) {
             Debug.Log("Detected Z for plant!");
             // TODO: plant the star
-            Instantiate(spawnPlantPrefab, transform.position, Quaternion.identity);
+            GameObject newBush = Instantiate(spawnPlantPrefab, transform.position, Quaternion.identity);
+            newBush.SetActive(true);
+            newBush.transform.position = gameObject.transform.position;
+            Destroy(gameObject, 0.1f);
         }
     }
 
