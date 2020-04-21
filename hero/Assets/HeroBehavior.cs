@@ -10,9 +10,8 @@ public class HeroBehavior : MonoBehaviour {
     private float heroSpeed = 20f;
     private const float rotationSpeed = 1f;
     private Vector3 direction;
-    private Vector3 rotationAxis;
-    private Vector3 basisVector;
-    private bool turnedLast = false;
+    private bool resolveXbounds = false;
+    private bool resolveYbounds = false;
 
     // Use this for initialization
 
@@ -22,29 +21,39 @@ public class HeroBehavior : MonoBehaviour {
         rb.velocity = new Vector2(0f, 20f);
         // initialize to move up in Y direction
         direction = new Vector3(0f, 10f, 0f);
-        // rotation axis is orthogonal to the XY plane
-        rotationAxis = new Vector3(0f, 0f, 1f);
-        // basis vector is the standard 0deg plane in trig
-        basisVector = new Vector3(1f, 0f, 0f);
     }
 	
     // Update is called once per frame
     void Update () {
+        CheckIfQuit();
         UpdateSpeed();
         UpdateMotion();
         ProcessEggSpawn();
     }
 
+    private void CheckIfQuit() {
+        if (Input.GetKeyDown(KeyCode.Q)) {
+            #if (UNITY_EDITOR)
+                UnityEditor.EditorApplication.isPlaying = false;
+            #elif (UNITY_STANDALONE) 
+                Application.Quit();
+            #elif (UNITY_WEBGL)
+                Application.OpenURL("about:blank");
+            #endif
+        }
+    }
+
     private void UpdateSpeed() {
         if (Input.GetKey(KeyCode.UpArrow)) {
-            heroSpeed += 5;
+            heroSpeed += 1f;
         }
         if (Input.GetKey(KeyCode.DownArrow)) {
-            heroSpeed -= 5;
+            heroSpeed -= 1f;
         }
         if (Input.GetKeyDown(KeyCode.P)) {
-            heroSpeed = 0;
+            heroSpeed = 0f;
         }
+        Debug.Log("Hero speed: " + heroSpeed);
     }
 
     private void UpdateMotion() {
@@ -65,31 +74,24 @@ public class HeroBehavior : MonoBehaviour {
         // check if out of bounds; if so, reverse that velocity component
         Vector3 screenPoint = cam.WorldToViewportPoint(transform.position);
         // Debug.Log("Screenpoint: " + screenPoint);
-        if (!turnedLast) {
-            turnedLast = resolveHeroTurns(screenPoint);
+        if (!(resolveXbounds || resolveYbounds)) {
+            resolveHeroTurns(screenPoint);
         } else {
-            Debug.Log("TurnedLast is true");
+            Debug.Log("One or both of the boundaries needs to be resolved");
             if (screenPoint.x > 0.05 && screenPoint.x < 0.95 && screenPoint.y > 0.05 && screenPoint.y < 0.95) {
-                turnedLast = false;
+                resolveXbounds = false;
+                resolveYbounds = false;
             }
         }
     }
 
-    private bool resolveHeroTurns(Vector3 screenPoint) {
-        bool changed = false;
+    private void resolveHeroTurns(Vector3 screenPoint) {
         if (screenPoint.x < 0.05 || screenPoint.x > 0.95) {
-            Debug.Log("Screenpoint: " + screenPoint);
             // rotate
-            Debug.Log("Rotating to reflect of off LHS/RHS sides");
-            Debug.Log("Old rotation/vel: " + rb.rotation + " " + rb.velocity);
             rb.MoveRotation(-rb.rotation);
-            Debug.Log("New rotation/vel: " + rb.rotation + " " + rb.velocity);
-            changed = true;
+            resolveXbounds = true;
         }
         if (screenPoint.y < 0.05 || screenPoint.y > 0.95) {
-            Debug.Log("Screenpoint: " + screenPoint);
-            Debug.Log("Rotating to reflect of off top/bottom");
-            Debug.Log("Old rotation/vel: " + rb.rotation + " " + rb.velocity);
             // rotate
             if (rb.rotation <= 0) {
                 rb.MoveRotation(-180 - rb.rotation);
