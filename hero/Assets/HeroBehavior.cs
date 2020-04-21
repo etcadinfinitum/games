@@ -7,12 +7,15 @@ public class HeroBehavior : MonoBehaviour {
     // public EggStatSystem mEggStat = null;
     private Rigidbody2D rb;
     private Camera cam;
-    public GameObject eggMan;
+    private GameObject eggMan;
+    private Slider cooldownSlider;
+    private Cooldown cooldownBar;
     private float heroSpeed = 20f;
     private const float rotationSpeed = 1f;
     private Vector3 direction;
     private bool resolveXbounds = false;
     private bool resolveYbounds = false;
+    private float cooldownTime = 0f;
 
     // Use this for initialization
 
@@ -20,6 +23,8 @@ public class HeroBehavior : MonoBehaviour {
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
         eggMan = GameObject.Find("EggiBoi");
+        cooldownSlider = GameObject.Find("CooldownSlider").GetComponent<Slider>();
+        cooldownBar = GameObject.Find("CooldownBar").GetComponentInChildren<Cooldown>();
         rb.velocity = new Vector2(0f, 20f);
         // initialize to move up in Y direction
         direction = new Vector3(0f, 10f, 0f);
@@ -107,9 +112,14 @@ public class HeroBehavior : MonoBehaviour {
     private void ProcessEggSpawn() {
         if (Input.GetKeyDown(KeyCode.Space)) {
             // check if cooldown is over
-            GameObject newEggMan = Instantiate(eggMan);
-            newEggMan.GetComponent<Transform>().position = transform.position;
-            newEggMan.AddComponent<EggBehavior>();
+            if (!cooldownBar.GetActiveCooldown()) {
+                // add eeg
+                GameObject newEggMan = Instantiate(eggMan);
+                newEggMan.GetComponent<Transform>().position = transform.position;
+                newEggMan.AddComponent<EggBehavior>();
+                // trigger cooldown bar updates
+                cooldownBar.StartCooldown(cooldownSlider.value);
+            }
         }
     }
 }
