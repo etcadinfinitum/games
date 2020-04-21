@@ -7,6 +7,7 @@ public class HeroBehavior : MonoBehaviour {
     // public EggStatSystem mEggStat = null;
     private Rigidbody2D rb;
     private Camera cam;
+    public GameObject eggMan;
     private float heroSpeed = 20f;
     private const float rotationSpeed = 1f;
     private Vector3 direction;
@@ -18,6 +19,7 @@ public class HeroBehavior : MonoBehaviour {
     void Start () {
         cam = Camera.main;
         rb = GetComponent<Rigidbody2D>();
+        eggMan = GameObject.Find("EggiBoi");
         rb.velocity = new Vector2(0f, 20f);
         // initialize to move up in Y direction
         direction = new Vector3(0f, 10f, 0f);
@@ -98,13 +100,16 @@ public class HeroBehavior : MonoBehaviour {
             } else {
                 rb.MoveRotation(180 - rb.rotation);
             }
-            Debug.Log("New rotation/vel: " + rb.rotation + " " + rb.velocity);
-            changed = true;
+            resolveYbounds = true;
         }
-        return changed;
     }
 
     private void ProcessEggSpawn() {
-
+        if (Input.GetKeyDown(KeyCode.Space)) {
+            // check if cooldown is over
+            GameObject newEggMan = Instantiate(eggMan);
+            newEggMan.GetComponent<Transform>().position = transform.position;
+            newEggMan.AddComponent<EggBehavior>();
+        }
     }
 }
