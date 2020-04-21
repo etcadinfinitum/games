@@ -60,7 +60,6 @@ public class HeroBehavior : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.P)) {
             heroSpeed = 0f;
         }
-        Debug.Log("Hero speed: " + heroSpeed);
     }
 
     private void UpdateMotion() {
@@ -114,8 +113,7 @@ public class HeroBehavior : MonoBehaviour {
             // check if cooldown is over
             if (!cooldownBar.GetActiveCooldown()) {
                 // add eeg
-                GameObject newEggMan = Instantiate(eggMan);
-                newEggMan.GetComponent<Transform>().position = transform.position;
+                GameObject newEggMan = Instantiate(eggMan, transform.position, transform.rotation);
                 newEggMan.AddComponent<EggBehavior>();
                 // trigger cooldown bar updates
                 cooldownBar.StartCooldown(cooldownSlider.value);
