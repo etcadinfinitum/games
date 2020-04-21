@@ -15,7 +15,6 @@ public class HeroBehavior : MonoBehaviour {
     private Vector3 direction;
     private bool resolveXbounds = false;
     private bool resolveYbounds = false;
-    private float cooldownTime = 0f;
 
     // Use this for initialization
 
@@ -84,7 +83,7 @@ public class HeroBehavior : MonoBehaviour {
             resolveHeroTurns(screenPoint);
         } else {
             Debug.Log("One or both of the boundaries needs to be resolved");
-            if (screenPoint.x > 0.05 && screenPoint.x < 0.95 && screenPoint.y > 0.05 && screenPoint.y < 0.95) {
+            if (screenPoint.x > 0.01 && screenPoint.x < 0.99 && screenPoint.y > 0.01 && screenPoint.y < 0.99) {
                 resolveXbounds = false;
                 resolveYbounds = false;
             }
@@ -92,12 +91,12 @@ public class HeroBehavior : MonoBehaviour {
     }
 
     private void resolveHeroTurns(Vector3 screenPoint) {
-        if (screenPoint.x < 0.05 || screenPoint.x > 0.95) {
+        if (screenPoint.x < 0.01 || screenPoint.x > 0.99) {
             // rotate
             rb.MoveRotation(-rb.rotation);
             resolveXbounds = true;
         }
-        if (screenPoint.y < 0.05 || screenPoint.y > 0.95) {
+        if (screenPoint.y < 0.01 || screenPoint.y > 0.99) {
             // rotate
             if (rb.rotation <= 0) {
                 rb.MoveRotation(-180 - rb.rotation);
