@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class GlobalBehavior : MonoBehaviour {
     public static GlobalBehavior sTheGlobalBehavior = null;
     public EggStatSystem mEggStat = null;
+    public GameObject enemyPrefab = null;
 
     public Text mGameStateEcho = null;  // Defined in UnityEngine.UI
    
@@ -31,11 +32,21 @@ public class GlobalBehavior : MonoBehaviour {
 
         GlobalBehavior.sTheGlobalBehavior = this;  // Singleton pattern
 
+        // load enemy prefab
+        enemyPrefab = Resources.Load<GameObject>("Prefabs/Enemy");
+        Debug.Assert(enemyPrefab != null);
+
         #region world bound support
         mMainCamera = Camera.main; // This is the default main camera
 		mWorldBound = new Bounds(Vector3.zero, Vector3.one);
 		UpdateWorldWindowBound();
         #endregion
+
+        // spawn and place 10 enemies
+        for (int i = 0; i < 10; i++) {
+            GameObject newEnemy = Instantiate(enemyPrefab);
+            newEnemy.GetComponent<EnemyBehavior>().SetLabel(i + 1);
+        }
     }
 
     /* Update is called once per frame 
