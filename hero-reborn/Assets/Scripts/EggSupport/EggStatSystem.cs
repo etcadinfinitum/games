@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class EggStatSystem : MonoBehaviour
-{
+public class EggStatSystem : MonoBehaviour {
     // UI Support
     public Scrollbar mEggInterval = null;
     public RectTransform mEggShotTime = null;
@@ -18,8 +17,7 @@ public class EggStatSystem : MonoBehaviour
     // Count
     private int mEggCount = 0;
 
-    void Start()
-    {
+    void Start() {
         Debug.Assert(mEggInterval != null);
         Debug.Assert(mEggShotTime != null);
         mEggSample = Resources.Load<GameObject>("Prefabs/Egg");
@@ -27,30 +25,25 @@ public class EggStatSystem : MonoBehaviour
         mSpawnEggAt = Time.realtimeSinceStartup - mEggInterval.value ; // assume one was shot
     }
 
-    void Update()
-    {
+    void Update() {
         UpdateCoolDownUI();
     }
 
     #region Spawning support
-    public bool CanSpawn()
-    {
+    public bool CanSpawn() {
         return TimeTillNext() <= 0f;
     }
 
-    public float TimeTillNext()
-    {
+    public float TimeTillNext() {
         float sinceLastEgg = Time.realtimeSinceStartup - mSpawnEggAt;
         return mEggInterval.value - sinceLastEgg;
     }
 
-    public void SpawnAnEgg(Vector3 p, Vector3 dir)
-    {
+    public void SpawnAnEgg(Vector3 p, Vector3 dir) {
         Debug.Assert(CanSpawn());
         GameObject e = GameObject.Instantiate(mEggSample) as GameObject;
         EggBehavior egg = e.GetComponent<EggBehavior>(); // Shows how to get the script from GameObject
-        if (null != egg)
-        {
+        if (null != egg) {
             e.transform.position = p;
             e.transform.up = dir;
         }
@@ -61,8 +54,7 @@ public class EggStatSystem : MonoBehaviour
     #endregion
 
     #region UI Support
-    private void UpdateCoolDownUI()
-    {
+    private void UpdateCoolDownUI() {
         float percentageT = TimeTillNext() / mEggInterval.value;
 
         Vector2 s = mEggShotTime.sizeDelta;  // This is the WidthxHeight [in pixel units]
@@ -73,7 +65,15 @@ public class EggStatSystem : MonoBehaviour
     #endregion
 
     // Count support
-    private void EchoEggCount() { GlobalBehavior.sTheGlobalBehavior.UpdateGameState("Egg Count: " + mEggCount); }
-    public void DecEggCount() { mEggCount--; EchoEggCount(); }
-    private void IncEggCount() { mEggCount++; EchoEggCount(); }
+    private void EchoEggCount() {
+        GlobalBehavior.sTheGlobalBehavior.UpdateGameState("Egg Count: " + mEggCount);
+    }
+
+    public void DecEggCount() {
+        mEggCount--; EchoEggCount();
+
+    }
+    private void IncEggCount() {
+        mEggCount++; EchoEggCount();
+    }
 }

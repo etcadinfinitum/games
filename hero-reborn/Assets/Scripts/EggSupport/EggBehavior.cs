@@ -6,19 +6,16 @@ public class EggBehavior : MonoBehaviour
 {
     private const float kEggSpeed = 40f;
     // Start is called before the first frame update
-    void Start()
-    {
+    void Start() {
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void Update() {
         transform.position += transform.up * (kEggSpeed * Time.smoothDeltaTime);
 
         // Figure out termination
         bool outside = GlobalBehavior.sTheGlobalBehavior.ObjectCollideWorldBound(GetComponent<Renderer>().bounds) == GlobalBehavior.WorldBoundStatus.Outside;
-        if (outside)
-        {
+        if (outside) {
             Destroy(gameObject);  // this.gameObject, this is destroying the game object
             GlobalBehavior.sTheGlobalBehavior.DestroyAnEgg();
         }

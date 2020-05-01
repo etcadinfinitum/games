@@ -7,32 +7,29 @@ public class HeroBehavior : MonoBehaviour {
     public EggStatSystem mEggStat = null;
     public float mHeroSpeed = 20f;
     public float kHeroRotateSpeed = 90f/2f; // 90-degrees in 2 seconds
-	// Use this for initialization
+    // Use this for initialization
 
-	void Start () {
+    void Start() {
         Debug.Assert(mEggStat != null);
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    }
+    
+    // Update is called once per frame
+    void Update() {
         UpdateMotion();
         BoundPosition();
         ProcessEggSpwan();
     }
 
-    private void UpdateMotion()
-    {
+    private void UpdateMotion() {
         mHeroSpeed += Input.GetAxis("Vertical");
         transform.position += transform.up * (mHeroSpeed * Time.smoothDeltaTime);
         transform.Rotate(Vector3.forward, -1f * Input.GetAxis("Horizontal") *
                                     (kHeroRotateSpeed * Time.smoothDeltaTime));
     }
 
-    private void BoundPosition()
-    {
+    private void BoundPosition() {
         GlobalBehavior.WorldBoundStatus status = GlobalBehavior.sTheGlobalBehavior.ObjectCollideWorldBound(GetComponent<Renderer>().bounds);
-        switch (status)
-        {
+        switch (status) {
             case GlobalBehavior.WorldBoundStatus.CollideBottom:
             case GlobalBehavior.WorldBoundStatus.CollideTop:
                 transform.up = new Vector3(transform.up.x, -transform.up.y, 0.0f);
@@ -44,8 +41,7 @@ public class HeroBehavior : MonoBehaviour {
         }
     }
 
-    private void ProcessEggSpwan()
-    {
+    private void ProcessEggSpwan() {
         if (mEggStat.CanSpawn()) {
             if (Input.GetKey("space"))
                 mEggStat.SpawnAnEgg(transform.position, transform.up);
