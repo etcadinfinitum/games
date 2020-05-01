@@ -44,19 +44,21 @@ public class EnemyBehavior : MonoBehaviour {
         random = !random;
     }
 
-    public void SetLabel(int label) {
+    public void InitializeEnemyState(int label, bool random) {
         this.label = label;
-        Debug.Log("Waypoint for Enemy " + label + " is random?: " + random);
+        this.random = random;
+        // Debug.Log("Waypoint for Enemy " + this.label + " is random?: " + this.random);
     }
 
     void OnTriggerEnter2D(Collider2D otherObj) {
         if (otherObj.gameObject.tag == "waypoint" && 
             otherObj.gameObject == waypoints[waypointIdx]) {
             NewDirection();
-        } else if (otherObj.gameObject.tag == "egg") {
-            
-            Destroy(gameObject);
-        } else if (otherObj.gameObject.name == "Hero") {
+        } else if (otherObj.gameObject.tag == "egg" || 
+                   otherObj.gameObject.name == "Hero") {
+            // Debug.Log("Enemy collided with item with name " + otherObj.gameObject.name);
+            GlobalBehavior g = GameObject.Find("GameManager").GetComponent<GlobalBehavior>();
+            g.KillAnEnemy(label);
             Destroy(gameObject);
         }
     }

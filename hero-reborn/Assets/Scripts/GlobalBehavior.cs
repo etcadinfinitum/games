@@ -13,6 +13,9 @@ public class GlobalBehavior : MonoBehaviour {
     private GameObject[] waypoints = null;
     private bool waypointsActive = true;
 
+    private bool enemiesAreRandom = false;
+    private int enemiesKilled = 0;
+
     #region World Bound support
     private Bounds mWorldBound;  // this is the world bound
     private Vector2 mWorldMin;  // Better support 2D interactions
@@ -46,7 +49,7 @@ public class GlobalBehavior : MonoBehaviour {
         // spawn and place 10 enemies
         for (int i = 0; i < 10; i++) {
             GameObject newEnemy = Instantiate(enemyPrefab);
-            newEnemy.GetComponent<EnemyBehavior>().SetLabel(i + 1);
+            newEnemy.GetComponent<EnemyBehavior>().InitializeEnemyState(i + 1, enemiesAreRandom);
         }
 
         // get the waypoint references
@@ -66,6 +69,11 @@ public class GlobalBehavior : MonoBehaviour {
             foreach (GameObject go in waypoints) {
                 go.GetComponent<SpriteRenderer>().enabled = waypointsActive;
             }
+        }
+
+        // keep track of enemy randomness
+        if (Input.GetKeyDown(KeyCode.J)) {
+            enemiesAreRandom = !enemiesAreRandom;
         }
     }
 
@@ -161,6 +169,12 @@ public class GlobalBehavior : MonoBehaviour {
     #region Game Stat Echo support
     public void DestroyAnEgg() {
         mEggStat.DecEggCount();
+    }
+
+    public void KillAnEnemy(int oldLabel) {
+        enemiesKilled += 1;
+        GameObject newEnemy = Instantiate(enemyPrefab) as GameObject;
+        newEnemy.GetComponent<EnemyBehavior>().InitializeEnemyState(oldLabel, enemiesAreRandom);
     }
 
     public void UpdateGameState(string msg) {
