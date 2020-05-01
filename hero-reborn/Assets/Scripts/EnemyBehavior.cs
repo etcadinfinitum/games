@@ -7,6 +7,7 @@ public class EnemyBehavior : MonoBehaviour {
     private GameObject[] waypoints = null;
     private int waypointIdx = 0;
     private int label = -1;
+    private bool random = false;
 		
 	// Use this for initialization
 	void Start () {
@@ -29,11 +30,23 @@ public class EnemyBehavior : MonoBehaviour {
 		if (status != GlobalBehavior.WorldBoundStatus.Inside) {
 			Debug.Log("collided position: " + this.transform.position);
 			NewDirection();
-		}	
+		}
+        
+        if (Input.GetKeyDown(KeyCode.J)) {
+            Debug.Log("Toggling random waypoint for Enemy " + label);
+            // toggle random waypoint
+            ToggleRandomWaypoint();
+        }
 	}
+
+    void ToggleRandomWaypoint() {
+        // invert the random bool value
+        random = !random;
+    }
 
     public void SetLabel(int label) {
         this.label = label;
+        Debug.Log("Waypoint for Enemy " + label + " is random?: " + random);
     }
 
     void OnTriggerEnter2D(Collider2D otherObj) {
@@ -46,8 +59,16 @@ public class EnemyBehavior : MonoBehaviour {
     // New direction will be the next waypoint to be visited 
     // by this enemy.
 	private void NewDirection() {
-        // choose next waypoint index
-        waypointIdx = (waypointIdx + 1) % waypoints.Length;
+        int oldWaypoint = waypointIdx;
+        if (random) {
+            // choose random waypoint which is different than current waypoint
+            while (waypointIdx == oldWaypoint) {
+                waypointIdx = ((int) Random.Range(0.0f, 350.0f)) % waypoints.Length;
+            }
+        } else {
+            // choose next sequential waypoint index
+            waypointIdx = (waypointIdx + 1) % waypoints.Length;
+        }
         Vector3 diff = waypoints[waypointIdx].transform.position - transform.position;
 		// Vector2 v = Random.insideUnitCircle;
 		transform.up = new Vector3(diff.x, diff.y, 0.0f);
