@@ -43,7 +43,7 @@ public class HeroBehavior : MonoBehaviour {
 
     private void ProcessEggSpwan() {
         if (mEggStat.CanSpawn()) {
-            if (Input.GetKey("space"))
+            if (Input.GetKeyDown(KeyCode.Space))
                 mEggStat.SpawnAnEgg(transform.position, transform.up);
         }
     }
