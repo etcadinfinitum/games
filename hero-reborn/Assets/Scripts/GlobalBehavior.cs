@@ -9,7 +9,9 @@ public class GlobalBehavior : MonoBehaviour {
     public GameObject enemyPrefab = null;
 
     public Text mGameStateEcho = null;  // Defined in UnityEngine.UI
-   
+
+    private GameObject[] waypoints = null;
+    private bool waypointsActive = true;
 
     #region World Bound support
     private Bounds mWorldBound;  // this is the world bound
@@ -47,14 +49,26 @@ public class GlobalBehavior : MonoBehaviour {
             GameObject newEnemy = Instantiate(enemyPrefab);
             newEnemy.GetComponent<EnemyBehavior>().SetLabel(i + 1);
         }
+
+        // get the waypoint references
+        waypoints = GameObject.FindGameObjectsWithTag("waypoint");
+        Debug.Assert(waypoints != null && waypoints.Length != 0);
     }
 
-    /* Update is called once per frame 
 	void Update () {
+        /*
 		mMainCamera.transform.position += 0.1f * Vector3.one;
 		mMainCamera.orthographicSize += 1.0f;
-	
-	} */
+	    */
+        
+        // hide waypoints if desired
+        if (Input.GetKeyDown(KeyCode.H)) {
+            waypointsActive = !waypointsActive;
+            foreach (GameObject go in waypoints) {
+                go.GetComponent<SpriteRenderer>().enabled = waypointsActive;
+            }
+        }
+	}
 
     #region Game Window World size bound support
     public enum WorldBoundStatus {
