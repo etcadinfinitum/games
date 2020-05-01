@@ -53,6 +53,11 @@ public class EnemyBehavior : MonoBehaviour {
         if (otherObj.gameObject.tag == "waypoint" && 
             otherObj.gameObject == waypoints[waypointIdx]) {
             NewDirection();
+        } else if (otherObj.gameObject.tag == "egg") {
+            
+            Destroy(gameObject);
+        } else if (otherObj.gameObject.name == "Hero") {
+            Destroy(gameObject);
         }
     }
 

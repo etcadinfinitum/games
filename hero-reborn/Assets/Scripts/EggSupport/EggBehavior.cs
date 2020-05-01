@@ -5,11 +5,9 @@ using UnityEngine;
 public class EggBehavior : MonoBehaviour
 {
     private const float kEggSpeed = 40f;
-    private float SpawnTime = 0f;
     // Start is called before the first frame update
     void Start()
     {
-        SpawnTime = Time.realtimeSinceStartup;
     }
 
     // Update is called once per frame
@@ -19,11 +17,18 @@ public class EggBehavior : MonoBehaviour
 
         // Figure out termination
         bool outside = GlobalBehavior.sTheGlobalBehavior.ObjectCollideWorldBound(GetComponent<Renderer>().bounds) == GlobalBehavior.WorldBoundStatus.Outside;
-        bool timeToDie = (Time.realtimeSinceStartup - SpawnTime) > 1f;
-        if (outside || timeToDie)
+        if (outside)
         {
             Destroy(gameObject);  // this.gameObject, this is destroying the game object
             GlobalBehavior.sTheGlobalBehavior.DestroyAnEgg();
+        }
+    }
+
+    void OnTriggerEnter2D(Collider2D otherObj) {
+        if (otherObj.gameObject.tag == "waypoint" || 
+            otherObj.gameObject.tag == "Enemy") {
+            GlobalBehavior.sTheGlobalBehavior.DestroyAnEgg();
+            Destroy(gameObject);
         }
     }
 }
