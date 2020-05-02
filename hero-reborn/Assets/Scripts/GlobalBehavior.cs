@@ -11,7 +11,9 @@ public class GlobalBehavior : MonoBehaviour {
     public Text mGameStateEcho = null;  // Defined in UnityEngine.UI
 
     private GameObject[] waypoints = null;
+    private int[] waypointAlphaDiff = null;
     private bool waypointsActive = true;
+    private Vector3[] waypointPosition = null;
 
     private bool enemiesAreRandom = false;
     private int enemiesKilled = 0;
@@ -55,6 +57,11 @@ public class GlobalBehavior : MonoBehaviour {
         // get the waypoint references
         waypoints = GameObject.FindGameObjectsWithTag("waypoint");
         Debug.Assert(waypoints != null && waypoints.Length != 0);
+        waypointAlphaDiff = new int[waypoints.Length];  // all elements are initialized to zero
+        waypointPosition = new Vector3[waypoints.Length];
+        for (int i = 0; i < waypointPosition.Length; i++) {
+            waypointPosition[i] = waypoints[i].transform.position;
+        }
     }
 
     void Update() {
@@ -74,6 +81,35 @@ public class GlobalBehavior : MonoBehaviour {
         // keep track of enemy randomness
         if (Input.GetKeyDown(KeyCode.J)) {
             enemiesAreRandom = !enemiesAreRandom;
+        }
+    }
+
+    public void SetWaypointAlpha(GameObject waypoint) {
+        for (int i = 0; i < waypoints.Length; i++) {
+            if (waypoints[i] == waypoint) {
+                waypointAlphaDiff[i] += 1;
+                if (waypointAlphaDiff[i] >= 4) {
+                    // set to 0
+                    waypointAlphaDiff[i] = 0;
+                    // move waypoint
+                    Vector3 newPos = new Vector3(
+                        Random.Range(waypointPosition[i].x + 15f, waypointPosition[i].x - 15f), 
+                        Random.Range(waypointPosition[i].y + 15f, waypointPosition[i].y - 15f), 
+                        0f
+                    );
+                    waypoints[i].transform.position = newPos;
+
+                    // notify enemies that waypoint has been moved
+                    GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+                    Debug.Assert(enemies != null && enemies.Length != 0);
+                    foreach (GameObject enemy in enemies) {
+                        enemy.SendMessage("UpdateDestination", waypoints[i]);
+                    }
+                }
+                Color tmp = waypoint.GetComponent<SpriteRenderer>().color;
+                tmp.a = (4f - waypointAlphaDiff[i]) / 4f;
+                waypoint.GetComponent<SpriteRenderer>().color = tmp;
+            }
         }
     }
 

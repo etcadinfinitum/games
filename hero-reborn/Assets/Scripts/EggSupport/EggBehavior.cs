@@ -24,6 +24,9 @@ public class EggBehavior : MonoBehaviour
     void OnTriggerEnter2D(Collider2D otherObj) {
         if (otherObj.gameObject.tag == "waypoint" || 
             otherObj.gameObject.tag == "Enemy") {
+            if (otherObj.gameObject.tag == "waypoint") {
+                GlobalBehavior.sTheGlobalBehavior.SetWaypointAlpha(otherObj.gameObject);
+            }
             GlobalBehavior.sTheGlobalBehavior.DestroyAnEgg();
             Destroy(gameObject);
         }

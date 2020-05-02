@@ -63,6 +63,15 @@ public class EnemyBehavior : MonoBehaviour {
         }
     }
 
+    public void UpdateDestination(GameObject waypoint) {
+        // Debug.Log("Enemy " + label + " received new waypoint location message.");
+        if (waypoint == waypoints[waypointIdx]) {
+            Debug.Log("Enemy " + label + " is updating destination for moved waypoint.");
+            Vector3 diff = waypoints[waypointIdx].transform.position - transform.position;
+            transform.up = new Vector3(diff.x, diff.y, 0.0f);
+        }
+    }
+
     // New direction will be the next waypoint to be visited 
     // by this enemy.
     private void NewDirection() {
