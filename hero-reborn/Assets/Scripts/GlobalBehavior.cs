@@ -18,6 +18,8 @@ public class GlobalBehavior : MonoBehaviour {
     private bool enemiesAreRandom = false;
     private int enemiesKilled = 0;
 
+    private bool useMouseControls = false;
+
     #region World Bound support
     private Bounds mWorldBound;  // this is the world bound
     private Vector2 mWorldMin;  // Better support 2D interactions
@@ -81,6 +83,11 @@ public class GlobalBehavior : MonoBehaviour {
         // keep track of enemy randomness
         if (Input.GetKeyDown(KeyCode.J)) {
             enemiesAreRandom = !enemiesAreRandom;
+        }
+
+        // look for mouse binding key
+        if (Input.GetKeyDown(KeyCode.M)) {
+            useMouseControls = !useMouseControls;
         }
     }
 
