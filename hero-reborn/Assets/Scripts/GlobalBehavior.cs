@@ -18,6 +18,8 @@ public class GlobalBehavior : MonoBehaviour {
     private bool enemiesAreRandom = false;
     private int enemiesKilled = 0;
 
+    private int eggCount = 0;
+
     private bool useMouseControls = false;
 
     #region World Bound support
@@ -89,6 +91,8 @@ public class GlobalBehavior : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.M)) {
             useMouseControls = !useMouseControls;
         }
+
+        UpdateGameState();
     }
 
     public void SetWaypointAlpha(GameObject waypoint) {
@@ -218,9 +222,18 @@ public class GlobalBehavior : MonoBehaviour {
         enemiesKilled += 1;
         GameObject newEnemy = Instantiate(enemyPrefab) as GameObject;
         newEnemy.GetComponent<EnemyBehavior>().InitializeEnemyState(oldLabel, enemiesAreRandom);
+        
     }
 
-    public void UpdateGameState(string msg) {
+    public void UpdateEggCount(int count) {
+        this.eggCount = count;
+    }
+
+    public void UpdateGameState() {
+        string msg = "Waypoint navigation: " + (enemiesAreRandom ? "Random" : "Sequential") + "\n";
+        msg += "Hero navigation: " + (useMouseControls ? "Cursor" : "Keyboard") + "\n";
+        msg += "Enemies killed: " + enemiesKilled + "\n";
+        msg += "Egg count: " + eggCount;
         mGameStateEcho.text = msg;
     }
 

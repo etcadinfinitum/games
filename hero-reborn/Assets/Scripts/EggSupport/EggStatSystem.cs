@@ -66,12 +66,17 @@ public class EggStatSystem : MonoBehaviour {
 
     // Count support
     private void EchoEggCount() {
-        GlobalBehavior.sTheGlobalBehavior.UpdateGameState("Egg Count: " + mEggCount);
+        GlobalBehavior.sTheGlobalBehavior.UpdateEggCount(mEggCount);
     }
 
     public void DecEggCount() {
-        mEggCount--; EchoEggCount();
-
+        mEggCount--;
+        // There is a strange race condition which I'm pretty sure can 
+        // be attributed to enemy & world bounds interaction in same frame;
+        // anyhow, we probably don't want less than 0 eggs when egg 
+        // generation is idle.
+        if (mEggCount < 0) mEggCount = 0;
+        EchoEggCount();
     }
     private void IncEggCount() {
         mEggCount++; EchoEggCount();
